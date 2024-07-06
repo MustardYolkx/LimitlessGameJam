@@ -15,16 +15,26 @@ public class SlimeMovement : MonoBehaviour
     public float blueValue;
     public float alphaValue;
 
+    private float xValue;
+    private float yValue;
+    
     public SpriteRenderer spriteRender;
 
     public ChangeColorItem currentColorItem;
 
     public bool CanChangeColor;
     public bool canMove = true;
+    private bool isFaceRight;
+
+    public bool canMoveUp;
     public GameObject expandEffect;
+
+    public Animator anim;
+    public Animator animBase;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        
         //spriteRender = GetComponentInChildren<SpriteRenderer>();
     }
     // Start is called before the first frame update
@@ -38,14 +48,19 @@ public class SlimeMovement : MonoBehaviour
     {
         GetInputValue();
         Movement();
-        if(Input.GetKeyDown(KeyCode.E))
+        Flip();
+        if (Input.GetKeyDown(KeyCode.E))
         {
             if(CanChangeColor)
             {
-                StartCoroutine(ChangeColor(currentColorItem));
-                expandEffect.SetActive(true);
-                expandEffect.GetComponent<AbsorbEffect>().ChangeColor(currentColorItem.redValue, currentColorItem.blueValue, currentColorItem.greenValue);
-                StartCoroutine( expandEffect.GetComponent<AbsorbEffect>().Expand());
+                if (currentColorItem.canBeAbsorb)
+                {
+
+                    StartCoroutine(ChangeColor(currentColorItem));
+                    expandEffect.SetActive(true);
+                    expandEffect.GetComponent<AbsorbEffect>().ChangeColor(currentColorItem.redValue, currentColorItem.blueValue, currentColorItem.greenValue);
+                    StartCoroutine( expandEffect.GetComponent<AbsorbEffect>().Expand());
+                }
             }
         }
 
@@ -53,7 +68,11 @@ public class SlimeMovement : MonoBehaviour
         {
             if (CanChangeColor)
             {
-                currentColorItem.ChangeColor(redValue, blueValue, greenValue);
+                if (currentColorItem.canBeChanged)
+                {
+                    currentColorItem.ChangeColor(redValue, blueValue, greenValue);
+
+                }
             }
         }
         spriteRender.color = new Color(redValue, greenValue, blueValue,alphaValue);
@@ -66,9 +85,42 @@ public class SlimeMovement : MonoBehaviour
     }
     public void GetInputValue()
     {
-        handleInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        if (canMoveUp)
+        {
+            yValue = Input.GetAxis("Vertical");
+        }
+       
+        xValue = Input.GetAxis("Horizontal");
+        handleInput = new Vector2(xValue, yValue);
+        if (handleInput != Vector2.zero)
+        {
+            anim.SetBool("Walk", true);
+            animBase.SetBool("Walk", true);
+
+            anim.SetBool("Idle", false);
+            animBase.SetBool("Idle", false);
+        }
+        if (handleInput == Vector2.zero)
+        {
+            anim.SetBool("Idle", true);
+            animBase.SetBool("Idle", true);
+
+            anim.SetBool("Walk", false);
+            animBase.SetBool("Walk", false);
+        }
     }
 
+    public void Flip()
+    {
+        if (xValue < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+        else if (xValue > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+    }
     public void Movement()
     {
         if (canMove)

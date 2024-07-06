@@ -9,10 +9,14 @@ public class ChangeColorItem : MonoBehaviour
     public float blueValue;
 
     public SpriteRenderer sprite;
+
+    public ItemChangeEffect effectSprite;
+    public bool canBeChanged;
+    public bool canBeAbsorb;
     private void Awake()
     {
         sprite = GetComponent<SpriteRenderer>();
-
+        effectSprite = GetComponentInChildren<ItemChangeEffect>();
     }
     void Start()
     {
@@ -29,5 +33,10 @@ public class ChangeColorItem : MonoBehaviour
         redValue = red;
         greenValue = green;
         blueValue = blue;
+    }
+
+    IEnumerator ColorChangeEffect()
+    {
+        yield return null;
     }
 }
