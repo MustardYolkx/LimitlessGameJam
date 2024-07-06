@@ -13,35 +13,79 @@ public class ChangeColorItem : MonoBehaviour
     public GameObject effectSprite;
     public bool canBeChanged;
     public bool canBeAbsorb;
-    private void Awake()
+
+    public int countLevel;
+
+    public bool isLevel3;
+
+    public Color color0;
+    public Color color1;
+    public Color color2;
+    public Color color3;
+    protected void Awake()
     {
         sprite = GetComponent<SpriteRenderer>();
         
     }
-    void Start()
+    protected void Start()
     {
         redValue = sprite.color.r;
         greenValue = sprite.color.g;
         blueValue = sprite.color.b;
     }
-    void Update()
+    protected void Update()
     {
         sprite.color = new Color(redValue, greenValue, blueValue);
     }
-    public void ChangeColor(float red, float blue, float green)
+    public virtual void ChangeColor(float red, float blue, float green,Vector2 pos)
     {
         //redValue = red;
         //greenValue = green;
         //blueValue = blue;
-        StartCoroutine(ColorChangeEffect(red, blue, green));
+        
+        StartCoroutine(ColorChangeEffect(red, blue, green,pos));
     }
 
-    public IEnumerator ColorChangeEffect(float red, float blue, float green)
+    public virtual IEnumerator ColorChangeEffect(float red, float blue, float green,Vector2 pos)
     {
-        StartCoroutine(effectSprite.GetComponent<ItemChangeEffect>().Expand());
-        yield return new WaitForSeconds(0.2f);
-        redValue = red;
-        greenValue = green;
-        blueValue = blue;
+        effectSprite.SetActive(true);
+        effectSprite.GetComponent<ItemChangeEffect>().ChangeColor(red, blue, green);
+        StartCoroutine(effectSprite.GetComponent<ItemChangeEffect>().Expand(pos));
+        yield return new WaitForSeconds(1f);
+        if (!isLevel3)
+        {
+            redValue = red;
+            greenValue = green;
+            blueValue = blue;
+
+        }
+
+        else if (isLevel3)
+        {
+            if (countLevel == 0)
+            {
+                redValue = color0.r;
+                blueValue = color0.r;
+                greenValue = color0.r;
+            }
+            if (countLevel == 1)
+            {
+                redValue = color1.r;
+                blueValue = color1.r;
+                greenValue = color1.r;
+            }
+            else if (countLevel == 2)
+            {
+                redValue = color2.r;
+                blueValue = color2.r;
+                greenValue = color2.r;
+            }
+            else if (countLevel == 3)
+            {
+                redValue = color3.r;
+                blueValue = color3.r;
+                greenValue = color3.r;
+            }
+        }
     }
 }
