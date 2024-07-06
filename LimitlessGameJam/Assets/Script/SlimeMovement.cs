@@ -56,15 +56,12 @@ public class SlimeMovement : MonoBehaviour
             {
                 if (currentColorItem.canBeAbsorb)
                 {
-                    if (!hasColor)
-                    {
-                        SoundManager.Instance.PlayEffect("suck");
-                        StartCoroutine(ChangeColor(currentColorItem));
-                        expandEffect.SetActive(true);
-                        expandEffect.GetComponent<AbsorbEffect>().ChangeColor(currentColorItem.redValue, currentColorItem.blueValue, currentColorItem.greenValue);
-                        StartCoroutine( expandEffect.GetComponent<AbsorbEffect>().Expand());
-                        hasColor = true;
-                    }
+                    SoundManager.Instance.PlayEffect("suck");
+                    StartCoroutine(ChangeColor(currentColorItem));
+                    expandEffect.SetActive(true);
+                    expandEffect.GetComponent<AbsorbEffect>().ChangeColor(currentColorItem.redValue, currentColorItem.blueValue, currentColorItem.greenValue);
+                    StartCoroutine( expandEffect.GetComponent<AbsorbEffect>().Expand());
+                    hasColor = true;
                 }
             }
         }
@@ -107,21 +104,29 @@ public class SlimeMovement : MonoBehaviour
         handleInput = new Vector2(xValue, yValue);
         if (handleInput != Vector2.zero)
         {
-            SoundManager.Instance.PlayMove();
-            anim.SetBool("Walk", true);
-            animBase.SetBool("Walk", true);
+            if (anim != null)
+            {
+                SoundManager.Instance.PlayMove();
+                anim.SetBool("Walk", true);
+                animBase.SetBool("Walk", true);
 
-            anim.SetBool("Idle", false);
-            animBase.SetBool("Idle", false);
+                anim.SetBool("Idle", false);
+                animBase.SetBool("Idle", false);
+            }
+            
         }
         if (handleInput == Vector2.zero)
         {
-            SoundManager.Instance.StopMove();
-            anim.SetBool("Idle", true);
-            animBase.SetBool("Idle", true);
+            if (anim != null)
+            {
+                SoundManager.Instance.StopMove();
+                anim.SetBool("Idle", true);
+                animBase.SetBool("Idle", true);
 
-            anim.SetBool("Walk", false);
-            animBase.SetBool("Walk", false);
+                anim.SetBool("Walk", false);
+                animBase.SetBool("Walk", false);
+            }
+
         }
     }
 
