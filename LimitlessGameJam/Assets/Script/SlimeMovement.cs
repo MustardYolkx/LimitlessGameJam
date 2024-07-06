@@ -32,6 +32,10 @@ public class SlimeMovement : MonoBehaviour
 
     public Animator anim;
     public Animator animBase;
+
+    public Transform detectPos;
+
+    public LayerMask colorLayer;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -52,43 +56,46 @@ public class SlimeMovement : MonoBehaviour
         Flip();
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if(CanChangeColor)
-            {
-                if (currentColorItem.canBeAbsorb)
-                {
-                    if (!hasColor)
-                    {
+            AbsorbColorDetect();
+            //if(CanChangeColor)
+            //{
+            //if (currentColorItem.canBeAbsorb)
+            //{
+            //    if (!hasColor)
+            //    {
 
-                        StartCoroutine(ChangeColor(currentColorItem));
-                        expandEffect.SetActive(true);
-                        expandEffect.GetComponent<AbsorbEffect>().ChangeColor(currentColorItem.redValue, currentColorItem.blueValue, currentColorItem.greenValue);
-                        StartCoroutine( expandEffect.GetComponent<AbsorbEffect>().Expand());
-                        hasColor = true;
-                    }
-                }
-            }
+            //        StartCoroutine(ChangeColor(currentColorItem));
+            //        expandEffect.SetActive(true);
+            //        expandEffect.GetComponent<AbsorbEffect>().ChangeColor(currentColorItem.redValue, currentColorItem.blueValue, currentColorItem.greenValue);
+            //        StartCoroutine( expandEffect.GetComponent<AbsorbEffect>().Expand());
+            //        hasColor = true;
+            //    }
+            //}
+            //}
         }
 
         if(Input.GetKeyDown(KeyCode.Q))
         {
-            if (CanChangeColor)
-            {
-                if (currentColorItem.canBeChanged)
-                {
-                    if (hasColor)
-                    {
+            ChangeColorDetect();
+            //if (CanChangeColor)
+            //{
+                //if (currentColorItem.canBeChanged)
+                //{
+                //    if (hasColor)
+                //    {
 
-                        currentColorItem.ChangeColor(redValue, blueValue, greenValue);
-                        alphaValue = 0;
-                        expandEffect.SetActive(true);
-                        StartCoroutine(expandEffect.GetComponent<AbsorbEffect>().Disappear());
-                        hasColor = false;
-                        //StartCoroutine(currentColorItem.ColorChangeEffect(redValue, blueValue, greenValue));
-                    }
-                }
-            }
+                //        currentColorItem.ChangeColor(redValue, blueValue, greenValue);
+                //        alphaValue = 0;
+                //        expandEffect.SetActive(true);
+                //        StartCoroutine(expandEffect.GetComponent<AbsorbEffect>().Disappear());
+                //        hasColor = false;
+                //        //StartCoroutine(currentColorItem.ColorChangeEffect(redValue, blueValue, greenValue));
+                //    }
+                //}
+            //}
         }
         spriteRender.color = new Color(redValue, greenValue, blueValue,alphaValue);
+        Debug.DrawRay(detectPos.position, new Vector3(0, 0, 1), Color.red);
     }
     IEnumerator ChangeColor(ChangeColorItem currentColorItem)
     {
@@ -107,19 +114,26 @@ public class SlimeMovement : MonoBehaviour
         handleInput = new Vector2(xValue, yValue);
         if (handleInput != Vector2.zero)
         {
-            anim.SetBool("Walk", true);
-            animBase.SetBool("Walk", true);
+            if (anim != null)
+            {
 
-            anim.SetBool("Idle", false);
-            animBase.SetBool("Idle", false);
+                anim.SetBool("Walk", true);
+                animBase.SetBool("Walk", true);
+
+                anim.SetBool("Idle", false);
+                animBase.SetBool("Idle", false);
+            }
         }
         if (handleInput == Vector2.zero)
         {
-            anim.SetBool("Idle", true);
-            animBase.SetBool("Idle", true);
+            if (anim != null)
+            {
+                anim.SetBool("Idle", true);
+                animBase.SetBool("Idle", true);
 
-            anim.SetBool("Walk", false);
-            animBase.SetBool("Walk", false);
+                anim.SetBool("Walk", false);
+                animBase.SetBool("Walk", false);
+            }
         }
     }
 
@@ -151,23 +165,86 @@ public class SlimeMovement : MonoBehaviour
         alphaValue = alpha;
     }
 
+    public void AbsorbColorDetect()
+    {
+        RaycastHit2D collision = Physics2D.Raycast(detectPos.position, new Vector3(0, 0, 1), 20,colorLayer);
+        if (collision.collider != null)
+        {
+
+            ChangeColorItem colorItem = collision.collider.gameObject.GetComponentInParent<ChangeColorItem>();
+            if (colorItem != null)
+            {
+                if (colorItem.canBeAbsorb)
+                {
+                    //if (!hasColor)
+                    //{
+
+                        StartCoroutine(ChangeColor(colorItem));
+                        expandEffect.SetActive(true);
+                        expandEffect.GetComponent<AbsorbEffect>().ChangeColor(colorItem.redValue, colorItem.blueValue, colorItem.greenValue);
+                        StartCoroutine(expandEffect.GetComponent<AbsorbEffect>().Expand());
+                        hasColor = true;
+                    //}
+                }
+            }
+        }
+    }
+
+    public void ChangeColorDetect()
+    {
+        RaycastHit2D collision = Physics2D.Raycast(detectPos.position, new Vector3(0, 0, 1), 20, colorLayer);
+        
+        if (collision.collider != null)
+        {
+            ChangeColorItem colorItem = collision.collider.gameObject.GetComponentInChildren<ChangeColorItem>();
+            if (colorItem != null)
+            {
+                if (colorItem.canBeChanged)
+                {
+                    if (hasColor)
+                    {
+                        if(colorItem.countLevel ==0)
+                        {
+                            colorItem.ChangeColor(redValue, blueValue, greenValue, gameObject.transform.position);
+                            alphaValue = 0;
+                            expandEffect.SetActive(true);
+                            StartCoroutine(expandEffect.GetComponent<AbsorbEffect>().Disappear());
+                            hasColor = false;
+                            colorItem.countLevel++;
+                        }
+                        else
+                        {
+                            if(spriteRender.color == Color.white)
+                            {
+                                colorItem.countLevel++;
+                            }
+                            else
+                            {
+                                colorItem.countLevel--;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        ChangeColorItem colorItem = collision.GetComponent<ChangeColorItem>();
-        if (colorItem != null)
-        {
-            currentColorItem = colorItem;
-            CanChangeColor= true;
-        }
+        //ChangeColorItem colorItem = collision.GetComponent<ChangeColorItem>();
+        //if (colorItem != null)
+        //{
+        //    currentColorItem = colorItem;
+        //    CanChangeColor= true;
+        //}
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        ChangeColorItem colorItem = collision.GetComponent<ChangeColorItem>();
-        if (colorItem != null)
-        {
-            currentColorItem = null;
-            CanChangeColor = false;
-        }
+        //ChangeColorItem colorItem = collision.GetComponent<ChangeColorItem>();
+        //if (colorItem != null)
+        //{
+        //    currentColorItem = null;
+        //    CanChangeColor = false;
+        //}
     }
 }

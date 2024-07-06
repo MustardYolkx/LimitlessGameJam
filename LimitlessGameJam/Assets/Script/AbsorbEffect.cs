@@ -12,6 +12,8 @@ public class AbsorbEffect : MonoBehaviour
     public float redValue;
     public float greenValue;
     public float blueValue;
+
+    public float targetScale = 3f;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,16 +34,17 @@ public class AbsorbEffect : MonoBehaviour
     }
     public IEnumerator Expand()
     {
+        
         //sprite.color = new Color(slimeScr.redValue, slimeScr.blueValue, slimeScr.blueValue);
         trans.localScale = Vector3.zero;
-        gameObject.LeanScale(new Vector2(3, 3), 0.2f);
+        gameObject.LeanScale(new Vector2(targetScale, targetScale), 0.2f);
         yield return new WaitForSeconds(0.2f);
 
         gameObject.SetActive(false);
     }
     public IEnumerator Disappear()
     {
-        trans.localScale = new Vector3(3, 3);
+        trans.localScale = new Vector3(targetScale, targetScale);
         gameObject.LeanScale(new Vector2(0, 0), 0.2f);
         yield return new WaitForSeconds(0.2f);
 

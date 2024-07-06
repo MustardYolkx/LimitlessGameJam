@@ -10,6 +10,9 @@ public class ItemChangeEffect : MonoBehaviour
     public float redValue;
     public float greenValue;
     public float blueValue;
+
+    public float targetScale = 3f;
+    public float changeTime = 0.2f;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,12 +31,12 @@ public class ItemChangeEffect : MonoBehaviour
 
         trans.localScale = Vector3.zero;
     }
-    public IEnumerator Expand()
+    public IEnumerator Expand(Vector2 pos)
     {
         //sprite.color = new Color(slimeScr.redValue, slimeScr.blueValue, slimeScr.blueValue);
-
-        gameObject.LeanScale(new Vector2(3, 3), 0.2f);
-        yield return new WaitForSeconds(0.2f);
+        trans.position = pos;
+        gameObject.LeanScale(new Vector2(targetScale, targetScale), changeTime);
+        yield return new WaitForSeconds(changeTime);
 
         gameObject.SetActive(false);
     }
