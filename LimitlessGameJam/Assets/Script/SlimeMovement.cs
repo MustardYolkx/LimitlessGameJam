@@ -58,7 +58,7 @@ public class SlimeMovement : MonoBehaviour
                 {
                     if (!hasColor)
                     {
-
+                        SoundManager.Instance.PlayEffect("suck");
                         StartCoroutine(ChangeColor(currentColorItem));
                         expandEffect.SetActive(true);
                         expandEffect.GetComponent<AbsorbEffect>().ChangeColor(currentColorItem.redValue, currentColorItem.blueValue, currentColorItem.greenValue);
@@ -77,7 +77,7 @@ public class SlimeMovement : MonoBehaviour
                 {
                     if (hasColor)
                     {
-
+                        SoundManager.Instance.PlayEffect("paint");
                         currentColorItem.ChangeColor(redValue, blueValue, greenValue);
                         alphaValue = 0;
                         expandEffect.SetActive(true);
@@ -107,6 +107,7 @@ public class SlimeMovement : MonoBehaviour
         handleInput = new Vector2(xValue, yValue);
         if (handleInput != Vector2.zero)
         {
+            SoundManager.Instance.PlayMove();
             anim.SetBool("Walk", true);
             animBase.SetBool("Walk", true);
 
@@ -115,6 +116,7 @@ public class SlimeMovement : MonoBehaviour
         }
         if (handleInput == Vector2.zero)
         {
+            SoundManager.Instance.StopMove();
             anim.SetBool("Idle", true);
             animBase.SetBool("Idle", true);
 
