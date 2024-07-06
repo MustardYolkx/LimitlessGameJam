@@ -28,18 +28,25 @@ public class AbsorbEffect : MonoBehaviour
     private void OnEnable()
     {
 
-        trans.localScale = Vector3.zero;
+        
     }
     public IEnumerator Expand()
     {
         //sprite.color = new Color(slimeScr.redValue, slimeScr.blueValue, slimeScr.blueValue);
-        
+        trans.localScale = Vector3.zero;
         gameObject.LeanScale(new Vector2(3, 3), 0.2f);
         yield return new WaitForSeconds(0.2f);
 
         gameObject.SetActive(false);
     }
+    public IEnumerator Disappear()
+    {
+        trans.localScale = new Vector3(3, 3);
+        gameObject.LeanScale(new Vector2(0, 0), 0.2f);
+        yield return new WaitForSeconds(0.2f);
 
+        gameObject.SetActive(false);
+    }
     public void ChangeColor(float red, float blue, float green)
     {
         redValue = red;
@@ -47,4 +54,6 @@ public class AbsorbEffect : MonoBehaviour
         blueValue = blue;
         sprite.color = new Color(redValue, greenValue, blueValue);
     }
+
+
 }

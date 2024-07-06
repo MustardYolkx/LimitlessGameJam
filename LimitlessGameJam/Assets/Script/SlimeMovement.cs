@@ -25,6 +25,7 @@ public class SlimeMovement : MonoBehaviour
     public bool CanChangeColor;
     public bool canMove = true;
     private bool isFaceRight;
+    private bool hasColor;
 
     public bool canMoveUp;
     public GameObject expandEffect;
@@ -55,11 +56,15 @@ public class SlimeMovement : MonoBehaviour
             {
                 if (currentColorItem.canBeAbsorb)
                 {
+                    if (!hasColor)
+                    {
 
-                    StartCoroutine(ChangeColor(currentColorItem));
-                    expandEffect.SetActive(true);
-                    expandEffect.GetComponent<AbsorbEffect>().ChangeColor(currentColorItem.redValue, currentColorItem.blueValue, currentColorItem.greenValue);
-                    StartCoroutine( expandEffect.GetComponent<AbsorbEffect>().Expand());
+                        StartCoroutine(ChangeColor(currentColorItem));
+                        expandEffect.SetActive(true);
+                        expandEffect.GetComponent<AbsorbEffect>().ChangeColor(currentColorItem.redValue, currentColorItem.blueValue, currentColorItem.greenValue);
+                        StartCoroutine( expandEffect.GetComponent<AbsorbEffect>().Expand());
+                        hasColor = true;
+                    }
                 }
             }
         }
@@ -70,8 +75,16 @@ public class SlimeMovement : MonoBehaviour
             {
                 if (currentColorItem.canBeChanged)
                 {
-                    currentColorItem.ChangeColor(redValue, blueValue, greenValue);
+                    if (hasColor)
+                    {
 
+                        currentColorItem.ChangeColor(redValue, blueValue, greenValue);
+                        alphaValue = 0;
+                        expandEffect.SetActive(true);
+                        StartCoroutine(expandEffect.GetComponent<AbsorbEffect>().Disappear());
+                        hasColor = false;
+                        //StartCoroutine(currentColorItem.ColorChangeEffect(redValue, blueValue, greenValue));
+                    }
                 }
             }
         }

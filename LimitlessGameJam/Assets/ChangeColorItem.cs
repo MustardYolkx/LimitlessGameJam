@@ -10,13 +10,13 @@ public class ChangeColorItem : MonoBehaviour
 
     public SpriteRenderer sprite;
 
-    public ItemChangeEffect effectSprite;
+    public GameObject effectSprite;
     public bool canBeChanged;
     public bool canBeAbsorb;
     private void Awake()
     {
         sprite = GetComponent<SpriteRenderer>();
-        effectSprite = GetComponentInChildren<ItemChangeEffect>();
+        
     }
     void Start()
     {
@@ -30,13 +30,18 @@ public class ChangeColorItem : MonoBehaviour
     }
     public void ChangeColor(float red, float blue, float green)
     {
+        //redValue = red;
+        //greenValue = green;
+        //blueValue = blue;
+        StartCoroutine(ColorChangeEffect(red, blue, green));
+    }
+
+    public IEnumerator ColorChangeEffect(float red, float blue, float green)
+    {
+        StartCoroutine(effectSprite.GetComponent<ItemChangeEffect>().Expand());
+        yield return new WaitForSeconds(0.2f);
         redValue = red;
         greenValue = green;
         blueValue = blue;
-    }
-
-    IEnumerator ColorChangeEffect()
-    {
-        yield return null;
     }
 }
