@@ -22,7 +22,18 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         SoundManager.Instance.Init();
-        UIManager.Instance.ShowUI<PauseButton>("PauseButton");
+        var bgm = gameObject.AddComponent<AudioSource>();
+        bgm.clip = Resources.Load<AudioClip>("Sounds/BGM/BGM");
+        bgm.loop = true;
+        bgm.Play();
+        if (UIManager.nowSceneName != "Start")
+        {
+            UIManager.Instance.ShowUI<PauseButton>("PauseButton");
+        }
+        else
+        {
+            UIManager.Instance.ShowUI<StartButton>("StartButton");
+        }
 
     }
 
