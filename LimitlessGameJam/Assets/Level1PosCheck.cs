@@ -18,6 +18,7 @@ public class Level1PosCheck : MonoBehaviour
     public GameObject slimeAnim;
 
     public GameObject player;
+    public GameObject backImage;
     // Start is called before the first frame update
     void Start()
     {
@@ -48,6 +49,7 @@ public class Level1PosCheck : MonoBehaviour
         yield return new WaitForSeconds(1);
         slimeAnim.SetActive(true);
         player.SetActive(false);
+        backImage.SetActive(false);
 
     }
     private void OnTriggerEnter2D(Collider2D collision)
