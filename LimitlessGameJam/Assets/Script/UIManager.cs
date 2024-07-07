@@ -19,6 +19,10 @@ public class UIManager : MonoBehaviour
         uiList = new List<UIBase>();
 
         nowSceneName = SceneManager.GetActiveScene().name;
+        if (nowSceneName != "Start")
+        {
+            UIManager.Instance.ShowUI<PauseButton>("PauseButton");
+        }
     }
 
     public UIBase ShowUI<T>(string uiName) where T : UIBase
