@@ -101,7 +101,7 @@ public class SlimeMovement : MonoBehaviour
     {
         
         yield return new WaitForSeconds(0.15f);
-        ChangeColor(currentColorItem.redValue, currentColorItem.blueValue, currentColorItem.greenValue,1);
+        ChangeColor(currentColorItem.redValue, currentColorItem.greenValue, currentColorItem.blueValue, 1);
     }
     public void GetInputValue()
     {
@@ -157,7 +157,7 @@ public class SlimeMovement : MonoBehaviour
         
     }
 
-    public void ChangeColor(float red,float blue, float green,float alpha)
+    public void ChangeColor(float red,float green , float blue, float alpha)
     {
         redValue= red;
         greenValue= green;
@@ -178,10 +178,14 @@ public class SlimeMovement : MonoBehaviour
                 {
                     //if (!hasColor)
                     //{
-
-                        StartCoroutine(ChangeColor(colorItem));
+                    if (anim != null)
+                    {
+                        anim.SetTrigger("Absorb");
+                        animBase.SetTrigger("Absorb");
+                    }
+                    StartCoroutine(ChangeColor(colorItem));
                         expandEffect.SetActive(true);
-                        expandEffect.GetComponent<AbsorbEffect>().ChangeColor(colorItem.redValue, colorItem.blueValue, colorItem.greenValue);
+                        expandEffect.GetComponent<AbsorbEffect>().ChangeColor(colorItem.redValue, colorItem.greenValue, colorItem.blueValue);
                         StartCoroutine(expandEffect.GetComponent<AbsorbEffect>().Expand());
                         hasColor = true;
                     //}
@@ -203,25 +207,57 @@ public class SlimeMovement : MonoBehaviour
                 {
                     if (hasColor)
                     {
-                        if(colorItem.countLevel ==0)
+                        if (anim != null)
                         {
-                            colorItem.ChangeColor(redValue, blueValue, greenValue, gameObject.transform.position);
+                            anim.SetTrigger("Change");
+                            animBase.SetTrigger("Change");
+                        }
+                        if(colorItem.isLevel3) 
+                        {
+                            if (colorItem.countLevel == 3)
+                            {
+                                colorItem.countLevel = 0;
+                                colorItem.ChangeColor(redValue, greenValue, blueValue, gameObject.transform.position);
+                                alphaValue = 0;
+                                expandEffect.SetActive(true);
+                                StartCoroutine(expandEffect.GetComponent<AbsorbEffect>().Disappear());
+                                hasColor = false;
+
+                            }
+                            else
+                            {
+                                if (spriteRender.color == Color.white)
+                                {
+                                    if (colorItem.countLevel < 3)
+                                    {
+
+                                        colorItem.countLevel++;
+                                    }
+
+                                }
+                                else
+                                {
+                                    if (colorItem.countLevel > 0)
+                                    {
+                                        colorItem.countLevel--;
+                                    }
+                                }
+                                colorItem.ChangeColor(redValue, greenValue, blueValue, gameObject.transform.position);
+                                alphaValue = 0;
+                                expandEffect.SetActive(true);
+                                StartCoroutine(expandEffect.GetComponent<AbsorbEffect>().Disappear());
+                                hasColor = false;
+                            }
+                        
+                            
+                        }
+                        else
+                        {
+                            colorItem.ChangeColor(redValue, greenValue, blueValue, gameObject.transform.position);
                             alphaValue = 0;
                             expandEffect.SetActive(true);
                             StartCoroutine(expandEffect.GetComponent<AbsorbEffect>().Disappear());
                             hasColor = false;
-                            colorItem.countLevel++;
-                        }
-                        else
-                        {
-                            if(spriteRender.color == Color.white)
-                            {
-                                colorItem.countLevel++;
-                            }
-                            else
-                            {
-                                colorItem.countLevel--;
-                            }
                         }
                     }
                 }

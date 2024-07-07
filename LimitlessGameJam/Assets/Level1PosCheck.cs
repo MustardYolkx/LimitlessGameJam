@@ -15,6 +15,9 @@ public class Level1PosCheck : MonoBehaviour
     public GameObject targetCamera;
 
     public SlimeMovement slime;
+    public GameObject slimeAnim;
+
+    public GameObject player;
     // Start is called before the first frame update
     void Start()
     {
@@ -34,12 +37,19 @@ public class Level1PosCheck : MonoBehaviour
 
                     slime.transform.position = targetPos.transform.position;
                     slime.canMove = false;
-
+                    StartCoroutine(DelayPlayAnim());
                 }
             }
         }
     }
 
+    IEnumerator DelayPlayAnim()
+    {
+        yield return new WaitForSeconds(1);
+        slimeAnim.SetActive(true);
+        player.SetActive(false);
+
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
        slime = collision.GetComponent<SlimeMovement>();

@@ -50,7 +50,7 @@ public class AbsorbEffect : MonoBehaviour
 
         gameObject.SetActive(false);
     }
-    public void ChangeColor(float red, float blue, float green)
+    public void ChangeColor(float red, float green, float blue)
     {
         redValue = red;
         greenValue = green;
