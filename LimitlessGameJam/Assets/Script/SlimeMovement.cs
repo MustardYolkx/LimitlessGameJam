@@ -25,7 +25,7 @@ public class SlimeMovement : MonoBehaviour
     public bool CanChangeColor;
     public bool canMove = true;
     public bool canFlip;
-    private bool hasColor;
+    public bool hasColor;
 
     public bool canMoveUp;
     public GameObject expandEffect;
