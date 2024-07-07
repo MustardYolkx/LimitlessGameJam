@@ -47,3 +47,6 @@ TagManager:
   - name: Player
     uniqueID: 2847554883
     locked: 0
+  - name: Anim
+    uniqueID: 1441207507
+    locked: 0
