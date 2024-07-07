@@ -116,7 +116,7 @@ public class SlimeMovement : MonoBehaviour
         {
             if (anim != null)
             {
-
+                SoundManager.Instance.PlayMove();
                 anim.SetBool("Walk", true);
                 animBase.SetBool("Walk", true);
 
@@ -128,6 +128,7 @@ public class SlimeMovement : MonoBehaviour
         {
             if (anim != null)
             {
+                SoundManager.Instance.StopMove();
                 anim.SetBool("Idle", true);
                 animBase.SetBool("Idle", true);
 
@@ -178,6 +179,7 @@ public class SlimeMovement : MonoBehaviour
                 {
                     //if (!hasColor)
                     //{
+                    SoundManager.Instance.PlayEffect("suck");
                     if (anim != null)
                     {
                         anim.SetTrigger("Absorb");
@@ -207,6 +209,7 @@ public class SlimeMovement : MonoBehaviour
                 {
                     if (hasColor)
                     {
+                        SoundManager.Instance.PlayEffect("paint");
                         if (anim != null)
                         {
                             anim.SetTrigger("Change");
