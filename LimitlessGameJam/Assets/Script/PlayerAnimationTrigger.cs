@@ -37,4 +37,9 @@ public class PlayerAnimationTrigger : MonoBehaviour
     {
         SceneManager.LoadScene("Level3");
     }
+
+    public void BackToStart()
+    {
+        SceneManager.LoadScene("Start");
+    }
 }

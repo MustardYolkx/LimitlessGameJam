@@ -39,7 +39,8 @@ public class Level4WinCondition : MonoBehaviour
 
         yield return new WaitForSeconds(2.5f);
         //Play Anim
-        Debug.Log("Win");
+        endAnim.SetActive(true);
+        //Debug.Log("Win");
 
     }
 }
