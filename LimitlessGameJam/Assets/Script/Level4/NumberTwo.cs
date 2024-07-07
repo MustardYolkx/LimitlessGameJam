@@ -25,7 +25,7 @@ public class NumberTwo : MonoBehaviour
             SlimeMovement slime = collision.GetComponent<SlimeMovement>();
             if(slime != null)
             {
-                SceneManager.LoadScene("Level5");
+                SceneManager.LoadScene("Level2_1");
             }
         }
     }

@@ -13,6 +13,8 @@ public class Level4BlueLineCheck : MonoBehaviour
 
     public bool isRed;
 
+    public GameObject hightlight7;
+
     public GameObject hightlight2;
     // Start is called before the first frame update
     void Start()
@@ -36,19 +38,22 @@ public class Level4BlueLineCheck : MonoBehaviour
         if (Vector3.Distance(colorToCheck, targetRedCo) < checkRange)
         {
             RedColorCorrect();
+            BlueColorWrong();
         }
         else
         {
             RedColorWrong();
+            
         }
 
         if (Vector3.Distance(colorToCheck, targetBlueCo) < checkRange)
         {
-            //RedColorCorrect();
+            BlueColorCorrect();
+            RedColorWrong();
         }
         else
         {
-            //RedColorWrong();
+            BlueColorWrong();
         }
 
     }
@@ -56,22 +61,24 @@ public class Level4BlueLineCheck : MonoBehaviour
     public void RedColorCorrect()
     {
         isRed = true;
-        hightlight2.SetActive(true);
+        hightlight7.SetActive(true);
     }
 
     public void RedColorWrong()
     {
         isRed = false;
-        hightlight2.SetActive(false);
+        hightlight7.SetActive(false);
     }
 
     public void BlueColorCorrect()
     {
         isRed = true;
+        hightlight2.SetActive(true);
     }
 
     public void BlueColorWrong()
     {
         isRed = false;
+        hightlight2.SetActive(false);
     }
 }

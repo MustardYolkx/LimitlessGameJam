@@ -10,6 +10,8 @@ public class Level2WinCondition : MonoBehaviour
     public SpriteRenderer sprite;
 
     public float checkRange;
+
+    public GameObject endAnim;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,8 +38,9 @@ public class Level2WinCondition : MonoBehaviour
     IEnumerator WinThisLevel()
     {
         
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(2.5f);
         //Play Anim
-        SceneManager.LoadScene("Level3");
+        endAnim.SetActive(true);
+        
     }
 }
