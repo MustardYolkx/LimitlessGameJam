@@ -24,7 +24,7 @@ public class SlimeMovement : MonoBehaviour
 
     public bool CanChangeColor;
     public bool canMove = true;
-    private bool isFaceRight;
+    public bool canFlip;
     private bool hasColor;
 
     public bool canMoveUp;
@@ -46,6 +46,7 @@ public class SlimeMovement : MonoBehaviour
     void Start()
     {
         rb.drag = drag;
+        canFlip = true;
     }
 
     // Update is called once per frame
@@ -140,13 +141,17 @@ public class SlimeMovement : MonoBehaviour
 
     public void Flip()
     {
-        if (xValue < 0)
+        if (canFlip)
         {
-            transform.rotation = Quaternion.Euler(0, 180, 0);
-        }
-        else if (xValue > 0)
-        {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
+
+            if (xValue < 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 180, 0);
+            }
+            else if (xValue > 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
         }
     }
     public void Movement()
@@ -267,23 +272,5 @@ public class SlimeMovement : MonoBehaviour
             }
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        //ChangeColorItem colorItem = collision.GetComponent<ChangeColorItem>();
-        //if (colorItem != null)
-        //{
-        //    currentColorItem = colorItem;
-        //    CanChangeColor= true;
-        //}
-    }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        //ChangeColorItem colorItem = collision.GetComponent<ChangeColorItem>();
-        //if (colorItem != null)
-        //{
-        //    currentColorItem = null;
-        //    CanChangeColor = false;
-        //}
-    }
 }

@@ -834,6 +834,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 834077099}
+  - component: {fileID: 834077101}
   - component: {fileID: 834077098}
   - component: {fileID: 834077100}
   m_Layer: 7
@@ -956,6 +957,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.9538386, y: 0.9603435}
   m_EdgeRadius: 0
+--- !u!114 &834077101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 834077097}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa493a614a7f4d045bb310eb0d4dabda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetColor: {r: 0.6784314, g: 0.43137258, b: 0.29803923, a: 0}
+  sprite: {fileID: 2063917390}
+  checkRange: 0.05
 --- !u!1 &893873266
 GameObject:
   m_ObjectHideFlags: 0
@@ -6587,6 +6603,7 @@ MonoBehaviour:
   color1: {r: 0, g: 0, b: 0, a: 0}
   color2: {r: 0, g: 0, b: 0, a: 0}
   color3: {r: 0, g: 0, b: 0, a: 0}
+  changeTime: 0
 --- !u!212 &1232841089
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6663,6 +6680,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1384948052}
+  - component: {fileID: 1384948055}
   - component: {fileID: 1384948054}
   - component: {fileID: 1384948053}
   m_Layer: 0
@@ -6761,6 +6779,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 2
   m_SpriteSortPoint: 0
+--- !u!114 &1384948055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384948051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5450b545b68ba3347aa405d4a335e109, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1435049422
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7818,6 +7848,7 @@ MonoBehaviour:
   color1: {r: 0, g: 0, b: 0, a: 0}
   color2: {r: 0, g: 0, b: 0, a: 0}
   color3: {r: 0, g: 0, b: 0, a: 0}
+  changeTime: 0
 --- !u!1 &2112784498
 GameObject:
   m_ObjectHideFlags: 0
@@ -7907,6 +7938,7 @@ MonoBehaviour:
   color1: {r: 0, g: 0, b: 0, a: 0}
   color2: {r: 0, g: 0, b: 0, a: 0}
   color3: {r: 0, g: 0, b: 0, a: 0}
+  changeTime: 0
 --- !u!212 &2112784501
 SpriteRenderer:
   m_ObjectHideFlags: 0

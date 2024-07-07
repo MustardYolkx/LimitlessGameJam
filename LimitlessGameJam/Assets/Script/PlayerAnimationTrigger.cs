@@ -14,15 +14,22 @@ public class PlayerAnimationTrigger : MonoBehaviour
     public void DisableMove()
     {
         slimeScr.canMove = false;
+        slimeScr.canFlip = false;
     }
 
     public void EnableMove()
     {
         slimeScr.canMove = true;
+        slimeScr.canFlip = true;
     }
 
     public void TurnToLevel2()
     {
         SceneManager.LoadScene("Level2");
+    }
+
+    public void TurnToLevel4()
+    {
+        SceneManager.LoadScene("Level4");
     }
 }
